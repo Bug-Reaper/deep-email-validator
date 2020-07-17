@@ -1,6 +1,6 @@
 import values from 'lodash/values'
 import every from 'lodash/every'
-import { validate } from '../src/index'
+import { validate } from '../src'
 
 const elevenSeconds = 11 * 1000
 
@@ -17,6 +17,7 @@ describe('validation tests', () => {
     expect(res.validators.smtp?.valid).toBe(false)
     expect(res).toMatchSnapshot()
   })
+
   it('fails with bad regex', async () => {
     const res = await validate('david.gmail.com')
     expect(res.valid).toBe(false)

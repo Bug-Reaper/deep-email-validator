@@ -1,5 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`validation tests fails 1`] = `
+Object {
+  "reason": "smtp",
+  "valid": false,
+  "validators": Object {
+    "disposable": Object {
+      "valid": true,
+    },
+    "mx": Object {
+      "valid": true,
+    },
+    "regex": Object {
+      "valid": true,
+    },
+    "smtp": Object {
+      "reason": "Mailbox not found.",
+      "valid": false,
+    },
+    "typo": Object {
+      "valid": true,
+    },
+  },
+}
+`;
+
 exports[`validation tests fails later with malformed regex 1`] = `
 Object {
   "reason": "smtp",

@@ -1,6 +1,6 @@
 import net from 'net'
 import { OutputFormat, createOutput } from '../output/output'
-import { hasCode, ErrorCodes } from './errorCodes'
+import { hasCode, isMailboxNotFound, ErrorCodes } from './errorCodes'
 
 const log = (...args: unknown[]) => {
   if (process.env.DEBUG === 'true') {
@@ -74,7 +74,7 @@ export const checkSMTP = async (
         log('data', msg)
         if (hasCode(msg, 220) || hasCode(msg, 250)) {
           socket.emit('next', msg)
-        } else if (hasCode(msg, 550)) {
+        } else if (isMailboxNotFound(msg.toString())) {
           socket.emit('fail', 'Mailbox not found.')
         } else {
           const [code] = Object.typedKeys(ErrorCodes).filter(x =>

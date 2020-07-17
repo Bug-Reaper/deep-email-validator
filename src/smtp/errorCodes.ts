@@ -28,3 +28,15 @@ export const hasCode = (
 ): boolean => {
   return message.indexOf(`${code}`) === 0 || message.indexOf(`${code}\n`) > -1
 }
+
+/**
+ * @see http://www.serversmtp.com/en/smtp-error
+ * @param  {String} message A response from the SMTP server.
+ * @return {Boolean}        True if the error is recognized as a mailbox
+ *                          missing error.
+ */
+export const isMailboxNotFound = (message: string) => {
+  return (message &&
+    /^(510|511|513|550|551|553)/.test(message) &&
+    !/(junk|spam|openspf|spoofing|host|rbl.+blocked|rejected)/ig.test(message.toLocaleLowerCase()));
+};
