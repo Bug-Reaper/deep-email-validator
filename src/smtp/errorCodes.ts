@@ -38,5 +38,5 @@ export const hasCode = (
 export const isMailboxNotFound = (message: string) => {
   return (message &&
     /^(510|511|513|550|551|553)/.test(message) &&
-    !/(junk|spam|openspf|spoofing|host|rbl.+blocked|rejected)/ig.test(message.toLocaleLowerCase()));
+    !/(junk|spam|openspf|spoofing|host|rbl.+blocked|rejected|denied|block list)/ig.test(message.toLocaleLowerCase()));
 };
