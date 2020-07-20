@@ -13,7 +13,7 @@ export const checkSMTP = async (
   recipient: string,
   exchange: string
 ): Promise<OutputFormat> => {
-  const timeout = 1000 * 10 // 10 seconds
+  const timeout = 1000 * 45 // 45 seconds
   return new Promise(r => {
     let receivedData: boolean = false;
     const socket = net.createConnection(25, exchange)
