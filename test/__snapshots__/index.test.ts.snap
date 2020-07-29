@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`validation tests check mx of those shits 1`] = `
+Object {
+  "conversation": "",
+  "reason": "smtp",
+  "valid": false,
+  "validators": Object {
+    "disposable": Object {
+      "valid": true,
+    },
+    "mx": Object {
+      "valid": true,
+    },
+    "regex": Object {
+      "valid": true,
+    },
+    "smtp": Object {
+      "reason": [Error: connect ECONNREFUSED 67.219.250.111:25],
+      "valid": false,
+    },
+    "typo": Object {
+      "valid": true,
+    },
+  },
+}
+`;
+
 exports[`validation tests fails 1`] = `
 Object {
   "reason": "smtp",

@@ -68,6 +68,12 @@ export const checkSMTP = async (
       socket.emit('fail', 'Timeout')
     })
 
+    socket.on('end', () => {
+      if (i < 3) {
+        socket.emit('fail', 'Received FIN packet from server')
+      }
+    })
+
     socket.on('connect', () => {
       socket.on('data', msg => {
         receivedData = true;

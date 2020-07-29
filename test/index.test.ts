@@ -5,6 +5,21 @@ import { validate } from '../src'
 const elevenSeconds = 11 * 1000
 
 describe('validation tests', () => {
+  it('fails by sending FIN packet', async () => {
+      const res = await validate({
+        email: 'abc@blg.com',
+        sender: 'abc@blg.com',
+        validateTypo: false,
+        validateDisposable: false,
+      })
+      expect(res.valid).toBe(false)
+      expect(res.reason).toBe('smtp')
+      expect(res.validators.smtp?.valid).toBe(false)
+      expect(res).toMatchSnapshot()
+    },
+    110000
+  )
+
   it('fails without sending data', async () => {
     const res = await validate({
       email: 'jubao@le.com',
