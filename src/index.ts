@@ -38,6 +38,7 @@ export async function validate(
 
   if (options.validateMx) {
     const records = await getMx(domain);
+    console.log(domain, records)
     if (!records || records.length === 0) return createOutput('mx', 'MX record not found')
     if (options.validateSMTP) {
       for (const mx of records) {
