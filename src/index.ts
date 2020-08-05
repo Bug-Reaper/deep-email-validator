@@ -1,11 +1,16 @@
 import { isEmail } from './regex/regex'
 import { checkTypo } from './typo/typo'
-import { getBestMx } from './dns/dns'
+import { getMx } from './dns/dns'
 import { checkSMTP } from './smtp/smtp'
 import { checkDisposable } from './disposable/disposable'
 import { getOptions, ValidatorOptions } from './options/options'
 import { OutputFormat, createOutput } from './output/output'
 import './types'
+
+const returnConversation = (conversation: OutputFormat): boolean => {
+  return conversation.valid ||
+    (!conversation.valid && conversation.validators?.smtp?.reason === 'Mailbox not found.');
+}
 
 export async function validate(
   emailOrOptions: string | ValidatorOptions
@@ -32,10 +37,16 @@ export async function validate(
   }
 
   if (options.validateMx) {
-    const mx = await getBestMx(domain)
-    if (!mx) return createOutput('mx', 'MX record not found')
+    const records = await getMx(domain);
+    if (!records || records.length === 0) return createOutput('mx', 'MX record not found')
     if (options.validateSMTP) {
-      return checkSMTP(options.sender, email, mx.exchange)
+      for (const mx of records) {
+        const conversation = await checkSMTP(options.sender, email, mx.exchange)
+        // if we received a clear conversation response or this is the last MX record to be checked
+        if (returnConversation(conversation) || mx.exchange === records[records.length - 1].exchange) {
+          return conversation
+        }
+      }
     }
   }
 
