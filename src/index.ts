@@ -43,7 +43,7 @@ export async function validate(
       for (const mx of records) {
         const conversation = await checkSMTP(options.sender, email, mx.exchange)
         // if we received a clear conversation response or this is the last MX record to be checked
-        if (returnConversation(conversation)) {
+        if (returnConversation(conversation) || mx === records[records.length - 1]) {
           return conversation
         }
       }
