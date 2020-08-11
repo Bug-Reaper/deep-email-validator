@@ -16,6 +16,7 @@ export const checkSMTP = async (
   const timeout = 1000 * 30 // 30 seconds
   return new Promise(r => {
     let receivedData: boolean = false;
+    let socketData: string = '';
     const socket = net.createConnection(25, exchange)
     socket.setEncoding('ascii')
     socket.setTimeout(timeout)
@@ -29,7 +30,7 @@ export const checkSMTP = async (
       }
     })
     socket.on('fail', msg => {
-      r(createOutput('smtp', msg))
+      r(createOutput(socketData, 'smtp', msg))
       if (socket.writable && !socket.destroyed) {
         socket.write(`quit\r\n`)
         socket.end()
@@ -43,7 +44,7 @@ export const checkSMTP = async (
         socket.end()
         socket.destroy()
       }
-      r(createOutput())
+      r(createOutput(socketData))
     })
 
     const commands = [
@@ -77,6 +78,7 @@ export const checkSMTP = async (
     socket.on('connect', () => {
       socket.on('data', msg => {
         receivedData = true;
+        socketData = `${socketData}${msg.toString()}`
         log('data', msg)
         if (hasCode(msg, 220) || hasCode(msg, 250)) {
           socket.emit('next', msg)

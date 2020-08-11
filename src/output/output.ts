@@ -12,17 +12,22 @@ export type OutputFormat = SubOutputFormat & {
   validators: {
     [K in Level]?: SubOutputFormat
   }
+  debug: {
+    conversation?: string
+  }
 }
 
 export const createOutput = (
+  conversation: string = '',
   failLevel?: Level,
-  failReason?: string
+  failReason?: string,
 ): OutputFormat => {
-  const out: OutputFormat = { valid: true, validators: {} }
+  const out: OutputFormat = { valid: true, validators: {}, debug: {} }
   if (failLevel) {
     out.reason = failLevel
     out.valid = false
   }
+  out.debug.conversation = conversation
   let valid = true
   for (let i = 0; i < OrderedLevels.length; i++) {
     const level = OrderedLevels[i]

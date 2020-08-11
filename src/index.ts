@@ -20,12 +20,12 @@ export async function validate(
 
   if (options.validateRegex) {
     const regexResponse = isEmail(email)
-    if (regexResponse) return createOutput('regex', regexResponse)
+    if (regexResponse) return createOutput('', 'regex', regexResponse)
   }
 
   if (options.validateTypo) {
     const typoResponse = await checkTypo(email)
-    if (typoResponse) return createOutput('typo', typoResponse)
+    if (typoResponse) return createOutput('', 'typo', typoResponse)
   }
 
   const domain = email.split('@')[1]
@@ -33,12 +33,12 @@ export async function validate(
   if (options.validateDisposable) {
     const disposableResponse = await checkDisposable(domain)
     if (disposableResponse)
-      return createOutput('disposable', disposableResponse)
+      return createOutput('', 'disposable', disposableResponse)
   }
 
   if (options.validateMx) {
     const records = await getMx(domain);
-    if (!records || records.length === 0) return createOutput('mx', 'MX record not found')
+    if (!records || records.length === 0) return createOutput('', 'mx', 'MX record not found')
     if (options.validateSMTP) {
       for (const mx of records) {
         const conversation = await checkSMTP(options.sender, email, mx.exchange)
@@ -48,7 +48,7 @@ export async function validate(
         }
       }
 
-      return createOutput('smtp', 'None of the MX records returned a valid answer')
+      return createOutput('', 'smtp', 'None of the MX records returned a valid answer')
     }
   }
 
