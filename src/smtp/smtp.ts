@@ -11,7 +11,8 @@ const log = (...args: unknown[]) => {
 export const checkSMTP = async (
   sender: string,
   recipient: string,
-  exchange: string
+  exchange: string,
+  hostname?: string
 ): Promise<OutputFormat> => {
   const timeout = 1000 * 30 // 30 seconds
   return new Promise(r => {
@@ -48,7 +49,7 @@ export const checkSMTP = async (
     })
 
     const commands = [
-      `helo ${exchange}\r\n`,
+      `helo ${hostname ? hostname : exchange}\r\n`,
       `mail from: <${sender}>\r\n`,
       `rcpt to: <${recipient}>\r\n`,
     ]
@@ -82,7 +83,7 @@ export const checkSMTP = async (
         log('data', msg)
         if (hasCode(msg, 220) || hasCode(msg, 250)) {
           socket.emit('next', msg)
-        } else if (isMailboxNotFound(msg.toString())) {
+        } else if (isMailboxNotFound(msg.toString()) && i > 2) {
           socket.emit('fail', 'Mailbox not found.')
         } else {
           const [code] = Object.typedKeys(ErrorCodes).filter(x =>

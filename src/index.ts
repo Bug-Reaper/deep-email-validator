@@ -6,6 +6,7 @@ import { checkDisposable } from './disposable/disposable'
 import { getOptions, ValidatorOptions } from './options/options'
 import { OutputFormat, createOutput } from './output/output'
 import './types'
+import { hostname } from 'os'
 
 const returnConversation = (conversation: OutputFormat): boolean => {
   return conversation.valid ||
@@ -41,7 +42,7 @@ export async function validate(
     if (!records || records.length === 0) return createOutput('', 'mx', 'MX record not found')
     if (options.validateSMTP) {
       for (const mx of records) {
-        const conversation = await checkSMTP(options.sender, email, mx.exchange)
+        const conversation = await checkSMTP(options.sender, email, mx.exchange, hostname())
         // if we received a clear conversation response or this is the last MX record to be checked
         if (returnConversation(conversation) || mx === records[records.length - 1]) {
           return conversation
