@@ -1,32 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validation tests check mx of those shits 1`] = `
-Object {
-  "conversation": "",
-  "reason": "smtp",
-  "valid": false,
-  "validators": Object {
-    "disposable": Object {
-      "valid": true,
-    },
-    "mx": Object {
-      "valid": true,
-    },
-    "regex": Object {
-      "valid": true,
-    },
-    "smtp": Object {
-      "reason": [Error: connect ECONNREFUSED 67.219.250.111:25],
-      "valid": false,
-    },
-    "typo": Object {
-      "valid": true,
-    },
-  },
-}
-`;
-
-exports[`validation tests fails 1`] = `
+exports[`validation tests fails by sending FIN packet 1`] = `
 Object {
   "reason": "smtp",
   "valid": false,
@@ -41,7 +15,7 @@ Object {
       "valid": true,
     },
     "smtp": Object {
-      "reason": "Mailbox not found.",
+      "reason": "SMTP Error: The mail server will be shut down. Save the mail message and try again later.",
       "valid": false,
     },
     "typo": Object {
@@ -266,7 +240,7 @@ Object {
       "valid": true,
     },
     "smtp": Object {
-      "reason": "Mail server closed connection without sending any data.",
+      "reason": "Received FIN packet from server",
       "valid": false,
     },
     "typo": Object {
@@ -360,6 +334,31 @@ Object {
     },
     "smtp": Object {
       "valid": true,
+    },
+    "typo": Object {
+      "valid": true,
+    },
+  },
+}
+`;
+
+exports[`validation tests scula bob 1`] = `
+Object {
+  "reason": "smtp",
+  "valid": false,
+  "validators": Object {
+    "disposable": Object {
+      "valid": true,
+    },
+    "mx": Object {
+      "valid": true,
+    },
+    "regex": Object {
+      "valid": true,
+    },
+    "smtp": Object {
+      "reason": "Mailbox not found.",
+      "valid": false,
     },
     "typo": Object {
       "valid": true,

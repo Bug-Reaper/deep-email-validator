@@ -12,6 +12,7 @@ describe('validation tests', () => {
         validateTypo: false,
         validateDisposable: false,
       })
+      delete res.debug;
       expect(res.valid).toBe(false)
       expect(res.reason).toBe('smtp')
       expect(res.validators.smtp?.valid).toBe(false)
@@ -27,6 +28,7 @@ describe('validation tests', () => {
       validateTypo: false,
       validateDisposable: false,
     })
+    delete res.debug;
     expect(res.valid).toBe(false)
     expect(res.reason).toBe('smtp')
     expect(res.validators.smtp?.valid).toBe(false)
@@ -35,6 +37,7 @@ describe('validation tests', () => {
 
   it('fails with bad regex', async () => {
     const res = await validate('david.gmail.com')
+    delete res.debug;
     expect(res.valid).toBe(false)
     expect(res.reason).toBe('regex')
     expect(res.validators.regex?.valid).toBe(false)
@@ -46,6 +49,7 @@ describe('validation tests', () => {
       email: 'dav id@gmail.com',
       validateRegex: false,
     })
+    delete res.debug;
     expect(res.valid).toBe(false)
     expect(res.reason).toBe('smtp')
     expect(res.validators.regex?.valid).toBe(true)
@@ -55,6 +59,7 @@ describe('validation tests', () => {
 
   it('fails with common typo', async () => {
     const res = await validate('david@gmaill.com')
+    delete res.debug;
     expect(res.valid).toBe(false)
     expect(res.reason).toBe('typo')
     expect(res.validators.typo?.valid).toBe(false)
@@ -63,6 +68,7 @@ describe('validation tests', () => {
 
   it('fails with disposable email', async () => {
     const res = await validate('david@temp-mail.org')
+    delete res.debug;
     expect(res.valid).toBe(false)
     expect(res.reason).toBe('disposable')
     expect(res.validators.disposable?.valid).toBe(false)
@@ -73,6 +79,7 @@ describe('validation tests', () => {
     'fails with bad dns',
     async () => {
       const res = await validate('xxx@yyy.zzz')
+      delete res.debug;
       expect(res.valid).toBe(false)
       expect(res.reason).toBe('mx')
       expect(res.validators.mx?.valid).toBe(false)
@@ -83,6 +90,7 @@ describe('validation tests', () => {
 
   it('fails with bad mailbox', async () => {
     const res = await validate('david@andco.life')
+    delete res.debug;
     expect(res.valid).toBe(false)
     expect(res.reason).toBe('smtp')
     expect(res.validators.smtp?.valid).toBe(false)
@@ -93,6 +101,7 @@ describe('validation tests', () => {
     'fails with bad mailbox',
     async () => {
       const res = await validate('admin@github.com')
+      delete res.debug;
       expect(res.valid).toBe(false)
       expect(res.reason).toBe('smtp')
       expect(res.validators.smtp?.valid).toBe(false)
@@ -108,6 +117,7 @@ describe('validation tests', () => {
         email: 'admin@github.com',
         validateSMTP: false,
       })
+      delete res.debug;
       expect(res.valid).toBe(true)
       expect(every(values(res.validators), x => x && x.valid)).toBe(true)
       expect(res).toMatchSnapshot()
@@ -119,6 +129,7 @@ describe('validation tests', () => {
     'passes when valid special char',
     async () => {
       const res = await validate('~@oftn.org')
+      delete res.debug;
       expect(res.valid).toBe(true)
       expect(every(values(res.validators), x => x && x.valid)).toBe(true)
       expect(res).toMatchSnapshot()
@@ -130,6 +141,7 @@ describe('validation tests', () => {
     'passes when valid wildcard',
     async () => {
       const res = await validate('info@davidalbertoadler.com')
+      delete res.debug;
       expect(res.valid).toBe(true)
       expect(every(values(res.validators), x => x && x.valid)).toBe(true)
       expect(res).toMatchSnapshot()
