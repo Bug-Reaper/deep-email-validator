@@ -10,6 +10,7 @@ const defaultOptions: ValidatorOptionsFinal = {
 
 type Options = {
   sender: string
+  host?: string
   validateRegex: boolean
   validateMx: boolean
   validateTypo: boolean
