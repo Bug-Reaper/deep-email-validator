@@ -38,6 +38,6 @@ export const hasCode = (
 export const isMailboxNotFound = (message: string) => {
   return (message &&
     /^(510|511|513|550|551|553)/.test(message) &&
-    !/(junk|spam|openspf|spoofing|spoofed|host|rbl.+blocked|spf.+failure|spf.+reject|rbl.+failure|denied|block list|dns|banned|helo.+fqdn|ptr|prohibit|verification.+fail|reputation|rbl score|spf fail|sender policy framework|\[xbl]|ip.+reject|ip.+blacklist|protocol error|auth.+requir|require.+encrypt|smtp auth|access.+not allowed|access.+rejected|unable.+relay|permanently deferred|undeliverable mail|not logged in)/ig.test(message) &&
-    !/(spamhaus|cyren ip|cloudmark|barracuda|abusix|abuseat.org)/ig.test(message));
+    !/(junk|spam|openspf|spoofing|spoofed|host|rbl.+blocked|spf.+failure|spf.+reject|rbl.+failure|denied|block list|dns|banned|[ (]helo[ )]|ptr|prohibit|verification.+fail|reputation|rbl score|spf fail|sender policy framework|\[xbl]|ip.+reject|ip.+blacklist|protocol error|auth.+requir|require.+encrypt|smtp auth|access.+not allowed|access.+rejected|unable.+relay|permanently deferred|undeliverable mail|not logged in)/ig.test(message) &&
+    !/(spamhaus|cyren ip|cloudmark|barracuda|abusix|abuseat.org|magicmail)/ig.test(message));
 };
